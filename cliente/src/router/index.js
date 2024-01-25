@@ -65,6 +65,11 @@ const routes = [
                 component: () => import('../components/tienda/Industrial.vue')
             },
             {
+                path: '/form',
+                name: 'form',
+                component: () => import('../components/Formulario.vue')
+            },
+            {
                 path: '/paginacion',
                 name: 'paginacion',
                 component: () => import('../components/Persona.vue')
