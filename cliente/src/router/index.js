@@ -63,6 +63,11 @@ const routes = [
                 path: '/homeProducts/cleanProducts/industrial',
                 name: 'industrial',
                 component: () => import('../components/tienda/Industrial.vue')
+            },
+            {
+                path: '/paginacion',
+                name: 'paginacion',
+                component: () => import('../components/Persona.vue')
             }
         ]
     },
