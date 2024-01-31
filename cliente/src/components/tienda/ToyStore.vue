@@ -6,7 +6,7 @@ export default {
     },
     data() {
         return {
-            items: [
+            elements: [
                 {
                     text: 'Tienda',
                     href: '#/toys',             
@@ -18,7 +18,7 @@ export default {
 </script>
 <template>
     <div class="component-container">
-        <SmartBreadcrumb :items="items"></SmartBreadcrumb>
+        <SmartBreadcrumb :items="elements"></SmartBreadcrumb>
         <div class="component-content">
                 <router-link to="/toys/electronics">
                     <div class="item">

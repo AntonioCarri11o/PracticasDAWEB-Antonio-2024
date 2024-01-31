@@ -4,21 +4,16 @@ Vue.use(VueRouter);
 const routes = [
     {
         path: '/',
-        redirect: '/inicio'
-    },    
+        component: () => import('../components/LandPage.vue')
+    },
     {
-        path: '/',
-        component: {
-            render(c) {
-                return c('router-view');
-            },
-        },
+        path: '*',
+        component: () => import('../components/Error.vue')
+    },
+    {
+        path: '/inicio',
+        component: () => import('../components/inicio/Inicio.vue'),
         children: [
-            {
-                path: '/inicio',
-                name: 'inicio',
-                component: () => import('../components/inicio/Inicio.vue')
-            },
             {
                 path: '/toys',
                 name: 'toys',
@@ -73,9 +68,9 @@ const routes = [
                 path: '/paginacion',
                 name: 'paginacion',
                 component: () => import('../components/Persona.vue')
-            }
+            },            
         ]
-    },
+    }
 ]
 const router =  new VueRouter({ routes });
 export default router;

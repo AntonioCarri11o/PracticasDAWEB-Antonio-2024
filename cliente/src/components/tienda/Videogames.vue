@@ -27,7 +27,9 @@ export default {
 <template>
     <div class="component-container">
         <SmartBreadcrumb :items="items"></SmartBreadcrumb>
-        <p>VideoGames component works</p>
+        <div class="component-content">
+            <p>VideoGames component works</p>
+        </div>
     </div>
 </template>
 <style scoped>
