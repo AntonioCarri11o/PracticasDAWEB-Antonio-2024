@@ -7,8 +7,6 @@ const obtenerPersonasPaginadas = async (page, size) => {
     const response = await axios.post(API_URL, {
       params: { page, size }
     });
-    console.log(response);
-
     return response.data;
   } catch (error) {
     throw error;
