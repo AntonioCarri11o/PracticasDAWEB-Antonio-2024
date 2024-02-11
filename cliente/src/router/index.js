@@ -69,6 +69,11 @@ const routes = [
                 name: 'paginacion',
                 component: () => import('../components/Persona.vue')
             },
+            {
+                path: '/estilos',
+                name: 'estilos',
+                component: () => import('../components/ManejoEstilos.vue')
+            },
         ]
     }
 ]

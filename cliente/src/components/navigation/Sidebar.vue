@@ -15,6 +15,9 @@
             <b-nav-item>
               <router-link to="/homeProducts">Productos para el hogar</router-link>
             </b-nav-item>
+            <b-nav-item>
+              <router-link to="/Estilos">Manejo estilos</router-link>
+            </b-nav-item>
           </b-nav>
         </div>
       </b-sidebar>

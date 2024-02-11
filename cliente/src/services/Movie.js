@@ -1,0 +1,54 @@
+import axios from 'axios';
+
+import { API_URL } from '../config';
+
+const listGenre = async () => {
+    try {
+        const response = await axios.get(`${API_URL}/genre`);
+        return response.data;
+    } catch (err) {
+        throw(err);
+    }
+};
+
+const saveMovie = async (movie) => {
+    try {
+        const response = await axios.post(`${API_URL}/movie`, movie);
+        return response.data;
+    } catch(err) {
+        throw (err);
+    }
+}
+
+const updateMovie = async (id, movie) => {
+    try {
+        const response = await axios.put(`${API_URL}/movie/${id}`, movie);
+        return response.data;
+    } catch(err) {
+        throw(err);
+    }
+}
+const listMovies = async () => {
+    try {
+        const response = await axios.get(`${API_URL}/movie`);
+        return response.data;
+    } catch(err) {
+        throw(err);
+    }
+}
+const getMovieById = async (id) => {
+    try {
+        const response = await axios.get(`${API_URL}/movie/${id}`);
+        return response.data;
+    } catch(err) {
+        throw(err);
+    }
+}
+
+export default {
+    listMovies,
+    getMovieById,
+    saveMovie,
+    updateMovie,
+    listGenre,
+}
