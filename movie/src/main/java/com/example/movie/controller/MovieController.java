@@ -28,4 +28,8 @@ public class MovieController {
     public Movie getById(@PathVariable Long id) {
         return movieService.getById(id).orElse(null);
     }
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable String id) {
+        movieService.delete(Long.parseLong(id));
+    }
 }

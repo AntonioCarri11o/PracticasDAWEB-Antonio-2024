@@ -44,11 +44,19 @@ const getMovieById = async (id) => {
         throw(err);
     }
 }
-
+const deleteMovie = async (id) => {
+    try {
+        await axios.delete(`${API_URL}/movie/${id}`);
+        window.location.reload();
+    } catch(err) {
+        throw(err);
+    }
+}
 export default {
     listMovies,
     getMovieById,
     saveMovie,
     updateMovie,
+    deleteMovie,
     listGenre,
 }

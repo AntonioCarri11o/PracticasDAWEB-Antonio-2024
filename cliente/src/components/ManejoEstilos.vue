@@ -139,7 +139,7 @@
                         <div :title="movie.genre.name" class="card-text text-nowrap text-truncate"> Género: {{ movie.genre.name }}</div>
                         </div>
                         <div class="w-100 d-flex justify-content-between">
-                            <b-button variant="danger"><b-icon icon="trash"></b-icon></b-button>
+                            <b-button variant="danger"><b-icon icon="trash" @click="deleteMovie(movie.id)"></b-icon></b-button>
                             <b-button v-b-modal.update-movie variant="primary" @click="getById(movie.id)"><b-icon icon="pencil"></b-icon></b-button>
                         </div>
                     </div>
@@ -254,6 +254,13 @@ export default {
                 });
             } catch(error) {
                 console.error(error);
+            }
+        },
+        async deleteMovie(id) {
+            try {
+                await movieService.deleteMovie(id);
+            } catch(err) {
+                console.error(err);
             }
         },
         async updateMovie() {
