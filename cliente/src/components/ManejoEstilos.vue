@@ -130,7 +130,7 @@
         <div class="movie-list-scrollframe h-100 mt-2 mx-auto row row-cols-4">
             <div class="col" v-for="movie in movies">
                 <div class="card mb-4">
-                    <img src="https://wallpapercave.com/uwp/uwp3768620.jpeg" class="card-img-top">
+                    <img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/a45f5b77779815.5c924418f1eaa.jpg" class="card-img-top">
                     <div class="card-body d-flex flex-column justify-content-between">
                         <div class="vstack gap-3">
                             <h5 :title="movie.name" class="trunacate-paragraph card-title">{{ movie.name }}</h5>
@@ -168,7 +168,6 @@
     width: 10%;
 }
 .card {
-    height: 20em;
 }
 .trunacate-paragraph {
     display: -webkit-box;
