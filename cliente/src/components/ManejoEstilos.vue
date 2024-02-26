@@ -127,7 +127,8 @@
             Catálogo de pelíulas
             <b-button v-b-modal.new-movie variant="primary" class="addButton"><b-icon icon="plus"></b-icon></b-button>
         </div>
-        <div class="movie-list-scrollframe h-100 mt-2 mx-auto row row-cols-4">
+        <div class="movie-form-container" :class="{'hideForm': hideForm}"></div>
+        <div class="movie-list-scrollframe h-100 mt-2 mx-auto row row-cols-4" ref="scrollframe">
             <div class="col" v-for="movie in movies">
                 <div class="card mb-4">
                     <img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/a45f5b77779815.5c924418f1eaa.jpg" class="card-img-top">
@@ -175,12 +176,23 @@
     overflow: hidden;
     -webkit-line-clamp: 2;
 }
+.movie-form-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    background-color: violet;
+    height: 3px;
+}
+.hideForm {
+    display: none;
+}
 </style>
 <script>
 import movieService from '../services/Movie';
 export default {
     data() {
         return {
+            hideForm: true,
             genres: [],
             movies: [],
             movieUpdate: {
@@ -202,8 +214,25 @@ export default {
     mounted() {
         this.getGenres();
         this.getMovies();
+        this.initScroll();
     },
-    methods: {        
+    beforeDestroy() {
+        this.closeScrollListener();
+    },
+    methods: {  
+        
+        initScroll: function() {
+            const scrollframeRef = this.$refs.scrollframe;
+            scrollframeRef.addEventListener('scroll', this.onScroll);
+        },
+        closeScrollListener: function() {
+            const scrollframeRef = this.$refs.scrollframe;
+            scrollframeRef.removeEventListener('scroll', this.onScroll);
+        },
+        onScroll: function() {
+            const scrollframe = this.$refs.scrollframe;
+            this.hideForm = scrollframe.scrollTop > 0;
+        },
         checkForm: function() {
             this.saveMovie();                
         },
