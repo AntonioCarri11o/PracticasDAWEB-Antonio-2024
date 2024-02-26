@@ -29,12 +29,8 @@ const updateMovie = async (id, movie) => {
     }
 }
 const listMovies = async (params = null) => {
-    params = {
-        param: 'genre',
-        value: 1
-    }
     try {
-        const response = await axios.get(`${API_URL}/movie/${params != null ? '?' + params?.param + '=' + params?.value : ''}`);
+        const response = await axios.get(`${API_URL}/movie/${(params.param != null  && params.value != null)? params.param + '?' + params?.param + '=' + params?.value : ''}`);
         return response.data;
     } catch(err) {
         throw(err);
