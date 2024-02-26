@@ -12,17 +12,11 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/movie")
+@RequestMapping("/api/movie/")
 @CrossOrigin(origins = Constants.CROSS_ORIGINS_URL)
 public class MovieController {
     @Autowired
     MovieService movieService;
-    public static List<String> allowedParamFilters = Arrays.asList(
-            "name",
-            "director",
-            "genre",
-            "date"
-    );
 
     @GetMapping
     public List<Movie> index() {
