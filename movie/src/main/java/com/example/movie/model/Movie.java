@@ -13,6 +13,15 @@ public class Movie {
     @JoinColumn(name = "genre")
     private Genre genre;
 
+    public Movie() {
+
+    }
+    public Movie(String name, String director, int duration, Genre genre) {
+        this.name = name;
+        this.director = director;
+        this.duration = duration;
+        this.genre = genre;
+    }
     public Long getId() {
         return id;
     }

@@ -7,3 +7,4 @@ insert into genre values(1, 'Suspenso');
 insert into genre values(1, 'Terror');
 
 select * from genre;
+select * from movie;
