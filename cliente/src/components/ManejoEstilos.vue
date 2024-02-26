@@ -1,66 +1,5 @@
 <template>
     <div class="d-flex flex-column w-100 h-100">        
-    <b-modal id="new-movie" title="Nueva película :D" hide-footer>
-        <b-form
-        @submit.prevent="checkForm"
-        action="https://vuejs.org/"
-        method="post"
-        >
-            <b-form-group
-            label="Nombre"
-            label-for="name"
-            >
-                <b-form-input
-                id="name"
-                v-model="name"
-                type="text"
-                :state="name ? null : false"
-                required
-                ></b-form-input>
-            </b-form-group>
-            <b-form-group
-            label="Director"
-            label-for="director"
-            >
-                <b-form-input
-                id="director"
-                v-model="director"
-                type="text"
-                :state="director ? null : false"
-                required
-                ></b-form-input>
-            </b-form-group>
-            <b-form-group
-            label="Duración en minutos"
-            label-for="duratio"
-            >
-                <b-form-input
-                id="duration"
-                v-model="duration"
-                type="number"
-                :state="duration ? null : false"
-                required
-                ></b-form-input>
-            </b-form-group>
-            <b-form-group
-            label="Género"
-            label-for="genre"
-
-            >
-            <b-form-select
-            id="genre"
-            v-model="genre"
-            :options="genres"
-            :state="genre ? null : false"
-            required
-            ></b-form-select>
-            </b-form-group>
-            <div class="w-100 d-flex justify-content-between">
-                <b-button type="button" variant="danger" @click="$bvModal.hide('new-movie')">Cancelar</b-button>
-                <b-button type="submit" variant="primary">Guardar</b-button>
-            </div>
-        </b-form>        
-    </b-modal>
     <b-modal id="update-movie" :title="movieUpdate? movieUpdate.name: '' " hide-footer>
         <b-form
         @submit.prevent="checkFormU"
@@ -125,11 +64,73 @@
     <div class="movie-list-container shadow bg-body-tertiary rounded d-flex flex-column mx-auto mt-5">
         <div class="movie-list-header rounded-top w-100 p-2 border border-secondary-subtle d-flex align-items-center justify-content-between">
             Catálogo de pelíulas
-            <b-button v-b-modal.new-movie variant="primary" class="addButton"><b-icon icon="plus"></b-icon></b-button>
         </div>
-        <div class="movie-form-container" :class="{'hideForm': hideForm}"></div>
+        <div class="movie-form-container" :class="{'hideForm': hideForm}">
+            <b-form
+        @submit.prevent="checkForm"
+        action="https://vuejs.org/"
+        method="post"
+        class="w-100 row row-cols-4"
+        >
+            <b-form-group
+            label="Nombre"
+            label-for="name"
+            class="col-12 col-sm-6 col-md-4 col-lg-3"
+            >
+                <b-form-input
+                id="name"
+                v-model="name"
+                type="text"
+                :state="name ? null : false"
+                required
+                ></b-form-input>
+            </b-form-group>
+            <b-form-group
+            label="Director"
+            label-for="director"
+            class="col-12 col-sm-6 col-md-4 col-lg-3"
+            >
+                <b-form-input
+                id="director"
+                v-model="director"
+                type="text"
+                :state="director ? null : false"
+                required
+                ></b-form-input>
+            </b-form-group>
+            <b-form-group
+            label="Duración en minutos"
+            label-for="duration"
+            class="col-12 col-sm-6 col-md-4 col-lg-3"
+            >
+                <b-form-input
+                id="duration"
+                v-model="duration"
+                type="number"
+                :state="duration ? null : false"
+                required
+                ></b-form-input>
+            </b-form-group>
+            <b-form-group
+            label="Género"
+            label-for="genre"
+            class="col-12 col-sm-6 col-md-4 col-lg-3"
+            >
+            <b-form-select
+            id="genre"
+            v-model="genre"
+            :options="genres"
+            :state="genre ? null : false"
+            required
+            ></b-form-select>
+            </b-form-group>
+            <div class="w-100 d-flex col-12 justify-content-center">
+                <b-button class="w-100" type="submit" variant="primary">Guardar</b-button>
+            </div>
+        </b-form> 
+        </div>
         <div class="movie-list-scrollframe h-100 mt-2 mx-auto row row-cols-4" ref="scrollframe">
-            <div class="col" v-for="movie in movies">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3" v-for="movie in movies">
                 <div class="card mb-4">
                     <img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/a45f5b77779815.5c924418f1eaa.jpg" class="card-img-top">
                     <div class="card-body d-flex flex-column justify-content-between">
@@ -180,8 +181,6 @@
     display: flex;
     justify-content: center;
     width: 100%;
-    background-color: violet;
-    height: 3px;
 }
 .hideForm {
     display: none;
