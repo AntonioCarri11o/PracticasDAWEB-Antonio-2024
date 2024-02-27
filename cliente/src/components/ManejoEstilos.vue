@@ -64,6 +64,19 @@
     <div class="movie-list-container shadow bg-body-tertiary rounded d-flex flex-column mx-auto mt-5">
         <div class="movie-list-header rounded-top w-100 p-2 border border-secondary-subtle d-flex align-items-center justify-content-between">
             Catálogo de pelíulas
+            <b-form
+            @submit.prevent="checkForm"
+            >
+                
+            </b-form>
+            <b-form-select
+            id="filter"
+            :state="filterBy.param ? null : false"
+            selectedOption: null
+            v-model="filterBy.param"
+            :options="getFilters()"
+            required
+            ></b-form-select>
         </div>
         <div class="movie-form-container" :class="{'hideForm': hideForm}">
             <b-form
@@ -191,6 +204,36 @@ import movieService from '../services/Movie';
 export default {
     data() {
         return {
+            filterBy: {
+                param: null,
+                value: null,
+            },
+            filters: [
+                {
+                    label: 'Nombre',
+                    param: 'name',
+                    type: 'text',
+                    value: ''
+                },
+                {
+                    label: 'Duración',
+                    param: 'duration',
+                    type: 'number',
+                    value: 0
+                },
+                {
+                    label: 'Fecha',
+                    param: 'date',
+                    type: 'date',
+                    value: null
+                },
+                {
+                    label: 'Director',
+                    param: 'director',
+                    type: 'text',
+                    value: '',
+                }
+            ],
             hideForm: true,
             genres: [],
             movies: [],
@@ -219,7 +262,16 @@ export default {
         this.closeScrollListener();
     },
     methods: {  
-        
+        getFilters: function() {
+            const filtersMap = this.filters.map(filter => {
+                return {
+                    value: filter.param,
+                    text: filter.label,
+                }
+            });            
+            filtersMap.push({value: null, text: 'Selecciona una opción'});
+            return filtersMap;
+        },
         initScroll: function() {
             const scrollframeRef = this.$refs.scrollframe;
             scrollframeRef.addEventListener('scroll', this.onScroll);
@@ -238,9 +290,14 @@ export default {
         checkFormU: function() {
             this.updateMovie();
         },
+        checkFormFilter: function() {
+            if (this.filterBy.param == null || this.filterBy.param == '' ||this.filterBy.value == null || this.filterBy.value == ''){
+                this.getMovies();
+            }
+        },
         async getMovies() {
             try {
-                const data = await movieService.listMovies();
+                const data = await movieService.listMovies({...this.filterBy});
                 this.movies = data;
             } catch(err) {
                 console.error(err);
@@ -255,7 +312,7 @@ export default {
             } catch(err) {
                 console.error(err);
             }
-        },
+        },        
         async getGenres() {
             try {
                 const data = await movieService.listGenre();
