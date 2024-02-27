@@ -65,18 +65,25 @@
         <div class="movie-list-header rounded-top w-100 p-2 border border-secondary-subtle d-flex align-items-center justify-content-between">
             Catálogo de pelíulas
             <b-form
-            @submit.prevent="checkForm"
+            @submit.prevent="checkFormFilter"
+             class="mx-3 d-flex"        
             >
-                
-            </b-form>
+            <b-form-group
+            class="form-flex"
+            >
             <b-form-select
             id="filter"
-            :state="filterBy.param ? null : false"
             selectedOption: null
             v-model="filterBy.param"
             :options="getFilters()"
             required
+            class="select mx-1"
             ></b-form-select>
+        </b-form-group>
+                <b-form-group>
+                    <b-form-input type="text"></b-form-input>
+                </b-form-group>
+            </b-form>
         </div>
         <div class="movie-form-container" :class="{'hideForm': hideForm}">
             <b-form
@@ -182,7 +189,22 @@
 .addButton {
     width: 10%;
 }
-.card {
+.select {
+    width: 10em;
+    color: #fff;
+    background-color: #007bff;
+    border: solid 1px #fff;
+}
+.d-flex {
+    align-items: center;
+    label {
+        margin: 0;
+    }
+}
+.form-flex {
+    * {
+        display: flex !important;
+    }
 }
 .trunacate-paragraph {
     display: -webkit-box;
@@ -269,7 +291,7 @@ export default {
                     text: filter.label,
                 }
             });            
-            filtersMap.push({value: null, text: 'Selecciona una opción'});
+            filtersMap.push({value: null, text: 'Filtrar por'});
             return filtersMap;
         },
         initScroll: function() {
