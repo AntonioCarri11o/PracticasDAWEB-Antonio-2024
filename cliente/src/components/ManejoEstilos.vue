@@ -80,7 +80,8 @@
             class="select mx-1"
             ></b-form-select>
         </b-form-group>
-                <b-form-group>
+                <b-form-group
+                >
                     <b-form-input type="text"></b-form-input>
                 </b-form-group>
             </b-form>
@@ -254,6 +255,13 @@ export default {
                     param: 'director',
                     type: 'text',
                     value: '',
+                },
+                {
+                    label: 'Género',
+                    param: 'genre',
+                    type: 'text',
+                    value: null
+
                 }
             ],
             hideForm: true,
@@ -293,6 +301,11 @@ export default {
             });            
             filtersMap.push({value: null, text: 'Filtrar por'});
             return filtersMap;
+        },
+        isTextFilter: function() {
+            console.log('Holi' +             this.getFilters().map(filter => {
+                return filter.value
+            }).find(this.filterBy.param));
         },
         initScroll: function() {
             const scrollframeRef = this.$refs.scrollframe;
