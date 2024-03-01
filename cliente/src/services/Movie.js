@@ -13,7 +13,7 @@ const listGenre = async () => {
 
 const saveMovie = async (movie) => {
     try {
-        const response = await axios.post(`${API_URL}/movie`, movie);
+        const response = await axios.post(`${API_URL}/movie/`, movie);
         return response.data;
     } catch(err) {
         throw (err);

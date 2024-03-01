@@ -66,10 +66,10 @@
             Catálogo de pelíulas
             <b-form
             @submit.prevent="checkFormFilter"
-             class="mx-3 d-flex"        
+             class="mx-3 row"        
             >
             <b-form-group
-            class="form-flex"
+            class="col"
             >
             <b-form-select
             id="filter"
@@ -81,9 +81,19 @@
             ></b-form-select>
         </b-form-group>
                 <b-form-group
+                class="col mb-0"
                 >
                     <b-form-input type="text"></b-form-input>
                 </b-form-group>
+                <b-form-group
+                v-if="filterBy.param == 'date'"
+                class="col mb-0"
+                >
+                    <b-form-input type="date"></b-form-input>
+                </b-form-group>
+                <div class="col mb-0">
+                    <b-button type="submit" variant="primary">Buscar</b-button>
+                </div>           
             </b-form>
         </div>
         <div class="movie-form-container" :class="{'hideForm': hideForm}">
