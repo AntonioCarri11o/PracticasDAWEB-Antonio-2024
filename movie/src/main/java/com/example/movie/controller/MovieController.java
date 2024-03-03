@@ -6,10 +6,7 @@ import com.example.movie.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/movie/")
@@ -22,9 +19,19 @@ public class MovieController {
     public List<Movie> index() {
         return movieService.list();
     }
+    @GetMapping("/name")
+    public List<Movie> getByName(
+            @RequestParam(name = "name") String name
+    ) {
+        if (name == null || name == "null" || name == "") {
+
+            return movieService.list();
+        }
+        return movieService.listBy("name", name);
+    }
     @GetMapping("/director")
     public List<Movie> getByDirector(
-            @RequestParam(name = "director", required = false) String director
+            @RequestParam(name = "director") String director
     ) {
         if (director == null || director == "null") {
             return movieService.list();
@@ -32,6 +39,13 @@ public class MovieController {
         return movieService.listBy("director", director);
     }
 
+    @GetMapping("/duration")
+    public List<Movie> getByDuration(@RequestParam(name = "duration") String duration) {
+        if (duration == null || duration == "null" || duration == "" ) {
+            return movieService.list();
+        }
+        return movieService.listBy("duration", duration);
+    }
     @GetMapping("/genre")
     public List<Movie> getByGenre(
             @RequestParam(name = "genre") String genre
@@ -40,6 +54,13 @@ public class MovieController {
             return movieService.list();
         }
         return movieService.listBy("genre", genre);
+    }
+    @GetMapping("/date")
+    public List<Movie> getByDate(@RequestParam(name = "min") String dateMin, @RequestParam(name = "limit") String dateLimit) {
+        if (dateMin == null || dateMin == "null" || dateMin == "" || dateLimit == null || dateLimit == "null" || dateLimit == "") {
+            return movieService.list();
+        }
+        return movieService.listByDateBetween(dateMin, dateLimit);
     }
     @PostMapping
     public Movie save(@RequestBody Movie movie) {

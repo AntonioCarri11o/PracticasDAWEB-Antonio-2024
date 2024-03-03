@@ -43,6 +43,18 @@
                 ></b-form-input>
             </b-form-group>
             <b-form-group
+            label="Fecha"
+            label-for="u-date"
+            >
+                <b-form-input
+                id="u-date"
+                v-model="movieUpdate.date"
+                type="date"
+                :state="movieUpdate.date ? null : false"
+                required
+                ></b-form-input>
+            </b-form-group>
+            <b-form-group
             label="Género"
             label-for="u-genre"
 
@@ -69,7 +81,7 @@
              class="mx-3 row"        
             >
             <b-form-group
-            class="col"
+            class="col-12 col-sm-6 col-md-4 col-lg-3"
             >
             <b-form-select
             id="filter"
@@ -80,18 +92,53 @@
             class="select mx-1"
             ></b-form-select>
         </b-form-group>
+        <b-form-group
+            class="col-12 col-sm-6 col-md-4 col-lg-3"
+            v-if="filterBy.param == 'genre'"
+            >
+            <b-form-select
+            id="filter"
+            selectedOption: null
+            v-model="filterBy.value"
+            :options="genres"
+            required
+            class="mx-1"
+            ></b-form-select>
+        </b-form-group>
                 <b-form-group
-                class="col mb-0"
+                class="col-12 col-sm-6 col-md-4 col-lg-3 mb-0"
+                v-if="['name', 'director', null].includes(filterBy.param)"
                 >
-                    <b-form-input type="text"></b-form-input>
+                    <b-form-input
+                    type="text"
+                    v-model="filterBy.value"
+                    ></b-form-input>
+                </b-form-group>
+                <b-form-group
+                class="col-12 col-sm-6 col-md-4 col-lg-3 mb-0"
+                v-if="filterBy.param == 'duration'"
+                >
+                    <b-form-input
+                    type="number"
+                    v-model="filterBy.value"></b-form-input>
                 </b-form-group>
                 <b-form-group
                 v-if="filterBy.param == 'date'"
                 class="col mb-0"
                 >
-                    <b-form-input type="date"></b-form-input>
+                    <b-form-input type="date"
+                    v-model="filterBy.value"
+                    ></b-form-input>
                 </b-form-group>
-                <div class="col mb-0">
+                <b-form-group
+                v-if="filterBy.param == 'date'"
+                class="col-12 col-sm-6 col-md-4 col-lg-3 mb-0"
+                >
+                    <b-form-input type="date"
+                    v-model="filterBy.svalue"
+                    ></b-form-input>
+                </b-form-group>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-0">
                     <b-button type="submit" variant="primary">Buscar</b-button>
                 </div>           
             </b-form>
@@ -155,6 +202,19 @@
             required
             ></b-form-select>
             </b-form-group>
+            <b-form-group
+            class="col-12 col-sm-6 col-md-4 col-lg-3"
+            label="Fecha"
+            label-for="date"
+            >
+                <b-form-input
+                id="date"
+                type="date"
+                v-model="date"
+                :state="date ? null : false"
+                requierd
+                ></b-form-input>
+            </b-form-group>
             <div class="w-100 d-flex col-12 justify-content-center">
                 <b-button class="w-100" type="submit" variant="primary">Guardar</b-button>
             </div>
@@ -170,8 +230,9 @@
                         <div :title="movie.director" class="card-text text-nowrap text-truncate"> Director: {{ movie.director }}</div>
                         <div class="card-text"> Duración: {{ movie.duration }} min</div>
                         <div :title="movie.genre.name" class="card-text text-nowrap text-truncate"> Género: {{ movie.genre.name }}</div>
+                        <div :title="movie.date" class="card-text text-nowrap text-truncate"> Fecha: {{ new Date(movie.date).toLocaleDateString() }}</div>
                         </div>
-                        <div class="w-100 d-flex justify-content-between">
+                        <div class="w-100 d-flex justify-content-between mt-1">
                             <b-button variant="danger"><b-icon icon="trash" @click="deleteMovie(movie.id)"></b-icon></b-button>
                             <b-button v-b-modal.update-movie variant="primary" @click="getById(movie.id)"><b-icon icon="pencil"></b-icon></b-button>
                         </div>
@@ -240,6 +301,7 @@ export default {
             filterBy: {
                 param: null,
                 value: null,
+                svalue: null,
             },
             filters: [
                 {
@@ -282,6 +344,7 @@ export default {
                 name: null,
                 director: null,
                 duration: 0,
+                date: null,
                 genre: {
                     id: null,
                     name: null,
@@ -291,6 +354,7 @@ export default {
             director: null,
             duration: 0,
             genre: null,
+            date: null,
         }
     },
     mounted() {
@@ -312,11 +376,6 @@ export default {
             filtersMap.push({value: null, text: 'Filtrar por'});
             return filtersMap;
         },
-        isTextFilter: function() {
-            console.log('Holi' +             this.getFilters().map(filter => {
-                return filter.value
-            }).find(this.filterBy.param));
-        },
         initScroll: function() {
             const scrollframeRef = this.$refs.scrollframe;
             scrollframeRef.addEventListener('scroll', this.onScroll);
@@ -336,9 +395,7 @@ export default {
             this.updateMovie();
         },
         checkFormFilter: function() {
-            if (this.filterBy.param == null || this.filterBy.param == '' ||this.filterBy.value == null || this.filterBy.value == ''){
-                this.getMovies();
-            }
+            this.getMovies();
         },
         async getMovies() {
             try {
@@ -374,11 +431,12 @@ export default {
         },
         async saveMovie() {
             try {
-                await movieService.saveMovie({ name: this.name, director: this.director, duration: parseInt(this.duration), genre: parseInt('' + this.genre) }).then(() => {
+                await movieService.saveMovie({ name: this.name, director: this.director, duration: parseInt(this.duration), genre: parseInt('' + this.genre), date: this.date }).then(() => {
                     this.name = null;
                     this.director = null;
                     this.duration = null;
                     this.genre = null;
+                    this.date = null;
                     window.location.reload();
                 });
             } catch(error) {
@@ -394,7 +452,7 @@ export default {
         },
         async updateMovie() {
             try {
-                await movieService.updateMovie(this.movieUpdate.id, { name: this.movieUpdate.name, director: this.movieUpdate.director, duration: parseInt(this.movieUpdate.duration), genre: this.movieUpdate.genre})
+                await movieService.updateMovie(this.movieUpdate.id, { name: this.movieUpdate.name, director: this.movieUpdate.director, duration: parseInt(this.movieUpdate.duration), genre: this.movieUpdate.genre, date: this.movieUpdate.date})
                 window.location.reload();
             } catch(err) {
                 console.error(err);

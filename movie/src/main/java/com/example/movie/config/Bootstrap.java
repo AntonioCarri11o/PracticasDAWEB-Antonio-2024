@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -47,7 +48,15 @@ public class Bootstrap {
         List <Genre> genreList = genreRepository.findAll();
         List<Movie> movies = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
-            movies.add(new Movie("Movie " + i, "whoever", 90, genreList.get(utils.getRandomNumber(6))));
+            movies.add(
+                    new Movie(
+                            "Movie " + i,
+                            "whoever",
+                            90,
+                            genreList.get(utils.getRandomNumber(6)),
+                            new Date()
+                            )
+            );
         }
         movieRepository.saveAll(movies);
     }

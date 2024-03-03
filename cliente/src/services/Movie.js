@@ -30,6 +30,11 @@ const updateMovie = async (id, movie) => {
 }
 const listMovies = async (params = null) => {
     try {
+        if (params.param == 'date') {
+            const varr = params.value.split('-');
+            const svarr = params.svalue.split('-');
+            return (await axios.get(`${API_URL}/movie/date?min=${varr[1] + '-' + varr[2] + '-' + varr[0]}&limit=${svarr[1] + '-' + svarr[2] + '-' +svarr[0]}`)).data;
+        }
         const response = await axios.get(`${API_URL}/movie/${(params.param != null  && params.value != null)? params.param + '?' + params?.param + '=' + params?.value : ''}`);
         return response.data;
     } catch(err) {

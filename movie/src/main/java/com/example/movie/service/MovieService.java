@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,10 +36,18 @@ public class MovieService {
                 moviesBy = movieRepository.findByDirectorContainingIgnoreCase(value);
                 break;
             case "date":
+
                 break;
             case "genre":
                 try {
                     moviesBy = movieRepository.findByGenreId(Long.parseLong(value));
+                } catch (Exception err) {
+                    moviesBy = movieRepository.findAll();
+                }
+                break;
+            case "duration":
+                try {
+                    moviesBy = movieRepository.findByDuration(Integer.parseInt(value));
                 } catch (Exception err) {
                     moviesBy = movieRepository.findAll();
                 }
@@ -49,7 +58,19 @@ public class MovieService {
         }
         return moviesBy;
     }
-
+    public List<Movie> listByDateBetween(String dateMin, String dateLimit) {
+        try {
+            Date min = new Date(dateMin.replace('-', '/'));
+            Date limit = new Date(dateLimit.replace('-', '/'));
+            limit.setHours(23);
+            limit.setMinutes(59);
+            limit.setSeconds(59);
+            return movieRepository.findAllByDateBetween(min, limit);
+        } catch(Exception exc) {
+            System.out.println("Exception list all");
+            return movieRepository.findAll();
+        }
+    }
     public Optional<Movie> getById(Long id) {
         return movieRepository.findById(id);
     }
