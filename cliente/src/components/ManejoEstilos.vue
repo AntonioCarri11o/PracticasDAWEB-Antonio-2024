@@ -68,7 +68,7 @@
             ></b-form-select>
             </b-form-group>
             <div class="w-100 d-flex justify-content-between">
-                <b-button type="button" variant="danger" @click="$bvModal.hide('update-movie')">Cancelar</b-button>
+                <b-button type="button" variant="danger" @click="$bvModal.hide('create')">Cancelar</b-button>
                 <b-button type="submit" variant="primary">Guardar</b-button>
             </div>
         </b-form>     
